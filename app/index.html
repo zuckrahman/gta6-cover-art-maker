@@ -3,20 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Coast Cover Maker — multi-panel poster covers</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
-  </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <header class="topbar">
+    <div>
+      <h1>Vice Coast <span>Cover Maker</span></h1>
+      <p class="tagline">Turn any photo into a multi-panel poster cover. Your photos never leave this machine.</p>
+    </div>
+    <div class="top-actions">
+      <label class="size-label" for="size">Export size</label>
+      <select id="size">
+        <option value="1080x1080">1080 x 1080 square</option>
+        <option value="1080x1350">1080 x 1350 portrait</option>
+        <option value="1920x1080" selected>1920 x 1080 landscape</option>
+      </select>
+      <button id="export" type="button" class="primary">Export PNG</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <section class="controls" aria-label="Cover controls">
+      <h2>1 · Photos</h2>
+      <p class="hint">Load up to three photos, or use the free samples. Click a panel in the preview to pick it, then set its photo below.</p>
+      <div class="photo-slots" id="photo-slots"></div>
+      <label class="file-btn">Add photos from this machine
+        <input id="photo-files" type="file" accept="image/*" multiple>
+      </label>
+      <div class="sample-row">
+        <button type="button" data-sample="boulevard">Sample: Boulevard</button>
+        <button type="button" data-sample="pier">Sample: Pier</button>
+      </div>
+      <p class="hint" id="selected-panel-label">Selected panel: 1</p>
+
+      <h2>2 · Layout</h2>
+      <div class="layout-grid" id="layout-grid" role="group" aria-label="Panel layout"></div>
+
+      <h2>3 · Selected panel</h2>
+      <label>Photo in this panel
+        <select id="panel-photo">
+          <option value="0">Photo 1</option>
+          <option value="1">Photo 2</option>
+          <option value="2">Photo 3</option>
+        </select>
+      </label>
+      <label>Zoom <span class="value" id="zoom-value">1.00x</span>
+        <input id="panel-zoom" type="range" min="1" max="2.5" step="0.05" value="1">
+      </label>
+      <label>Position left / right <span class="value" id="dx-value">0</span>
+        <input id="panel-dx" type="range" min="-1" max="1" step="0.05" value="0">
+      </label>
+      <label>Position up / down <span class="value" id="dy-value">0</span>
+        <input id="panel-dy" type="range" min="-1" max="1" step="0.05" value="0">
+      </label>
+      <button type="button" id="fill-all">Fill every panel with this photo</button>
+      <button type="button" id="reset-panel">Reset this panel</button>
+
+      <h2>4 · Caption</h2>
+      <label>Title
+        <input id="title" type="text" maxlength="32" value="VICE COAST">
+      </label>
+      <label>Subtitle (script lettering)
+        <input id="subtitle" type="text" maxlength="48" value="Neon nights, salt air, one last score.">
+      </label>
+      <label>Title size <span class="value" id="title-scale-value">100%</span>
+        <input id="title-scale" type="range" min="0.7" max="1.3" step="0.05" value="1">
+      </label>
+
+      <h2>5 · Colour grade</h2>
+      <div class="grade-grid" id="grade-grid" role="group" aria-label="Colour grade"></div>
+      <label class="check"><input id="grain" type="checkbox" checked> Film grain</label>
+      <label class="check"><input id="vignette" type="checkbox" checked> Vignette</label>
+      <label class="check"><input id="frame" type="checkbox" checked> White frame and badge</label>
+      <p id="status" role="status"></p>
+    </section>
+
+    <section class="preview" aria-label="Live preview">
+      <canvas id="cover" width="1920" height="1080" aria-label="Live cover preview"></canvas>
+      <p class="hint">Live preview — click a panel to select it, drag inside it to reposition its photo.</p>
+      <div class="quick-export">
+        <button type="button" data-export-size="1080x1080">PNG 1080 x 1080</button>
+        <button type="button" data-export-size="1080x1350">PNG 1080 x 1350</button>
+        <button type="button" data-export-size="1920x1080">PNG 1920 x 1080</button>
+      </div>
+    </section>
+  </div>
+  <footer class="foot">Vice Coast Cover Maker — original poster art made offline in your browser. No photos are uploaded. Lettering: Anton and Pacifico, SIL Open Font License.</footer>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
